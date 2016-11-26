@@ -2,12 +2,15 @@
 
 set -e
 
-SWIFT_VERSION=$(<.swift-version)
-
 # Run unit tests
+docker build \
+    -t lambda-ubuntu \
+    -f Dockerfile-ubuntu \
+    .
 docker run \
     --rm \
     --volume "$(pwd):/app" \
+    --volume "$(pwd)/.build/native/Packages:/app/Packages" \
     --workdir /app \
-    smithmicro/swift:$SWIFT_VERSION \
+    lambda-ubuntu \
     swift test --build-path .build/native
