@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+# mkdir required here to avoid permission problem in script
+install:
+  - mkdir -p .build/lambda/libraries 
+  - ./run-unit-tests.sh
+
+script:
+  - ./run-integration-tests.sh
