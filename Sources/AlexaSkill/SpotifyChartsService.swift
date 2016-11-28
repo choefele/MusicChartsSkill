@@ -1,15 +1,22 @@
 import Foundation
 import KituraNet
-//import SwiftyJSON
 
 class SpotifyChartsService {
     func retrieve(completion: @escaping () -> ()) {
-        let URL = "http://google.com"
+        let URL = "https://spotifycharts.com/regional/global/daily/latest/download"
         let _ = HTTP.get(URL) { response in
             var data = Data()
-            try! response!.readAllData(into: &data)
-            //            let dict = JSON(data: data)
-            
+            if let _ = try? response?.readAllData(into: &data),
+                let dataAsString = String(data: data, encoding: .utf8) {
+                let rows = dataAsString
+                    .components(separatedBy: .newlines)
+                    .dropFirst()
+                    .map() { row in
+                    return row.components(separatedBy: ",")
+                }
+                print("")
+            }
+
             completion()
         }
     }
