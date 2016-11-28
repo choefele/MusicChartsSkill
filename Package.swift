@@ -7,7 +7,8 @@ var package = Package(
         Target(name: "Lambda", dependencies: ["AlexaSkill"])
     ],
     dependencies: [
-        .Package(url: "https://github.com/choefele/AlexaSkillsKit", majorVersion: 0)
+        .Package(url: "https://github.com/choefele/AlexaSkillsKit", majorVersion: 0),
+        .Package(url: "https://github.com/yaslab/CSV.swift", majorVersion: 1, minor: 1)
     ],
     exclude: ["Sources/Server"])
 
