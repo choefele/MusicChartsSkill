@@ -2,7 +2,7 @@ import Foundation
 import KituraNet
 import CSV
 
-class SpotifyChartsService {
+class SpotifyChartsService: ChartsService {
     func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
         let URL = "https://spotifycharts.com/regional/global/daily/latest/download"
         let _ = HTTP.get(URL) { response in

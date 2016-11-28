@@ -26,4 +26,5 @@ struct ChartEntry: Equatable {
 }
 
 protocol ChartsService {
+    func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ())
 }
