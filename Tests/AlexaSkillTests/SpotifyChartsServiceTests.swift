@@ -25,7 +25,12 @@ class SpotifyChartsServiceTests: XCTestCase {
 
     func testRetrieveCharts() {
         let testExpectation = expectation(description: #function)
-        spotifyChartsService.retrieveCharts() {
+        spotifyChartsService.retrieveCharts() { result in
+            if case .success(let entries) = result {
+                XCTAssertEqual(entries.count, 200)
+            } else {
+                XCTFail()
+            }
             testExpectation.fulfill()
         }
         waitForExpectations(timeout: 1)

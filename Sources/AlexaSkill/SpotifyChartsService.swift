@@ -3,22 +3,21 @@ import KituraNet
 import CSV
 
 class SpotifyChartsService {
-    func retrieveCharts(completion: @escaping () -> ()) {
+    func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
         let URL = "https://spotifycharts.com/regional/global/daily/latest/download"
         let _ = HTTP.get(URL) { response in
             var data = Data()
-            if let _ = try? response?.readAllData(into: &data),
-                let dataAsString = String(data: data, encoding: .utf8) {
-                let rows = dataAsString
-                    .components(separatedBy: .newlines)
-                    .dropFirst()
-                    .map() { row in
-                    return row.components(separatedBy: ",")
-                }
-                print("")
+            guard let _ = try? response?.readAllData(into: &data) else {
+                completion(.failure(MessageError(message: "Invalid data")))
+                return
             }
-
-            completion()
+            
+            guard let entries = SpotifyChartsService.parse(data: data) else {
+                completion(.failure(MessageError(message: "Error parsing data")))
+                return
+            }
+            
+            completion(.success(entries))
         }
     }
     

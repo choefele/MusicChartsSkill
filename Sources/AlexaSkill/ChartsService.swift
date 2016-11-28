@@ -5,6 +5,14 @@ enum ChartsServiceResult<T> {
     case failure(Error)
 }
 
+struct MessageError: Error, Equatable {
+    var message: String
+    
+    static func ==(lhs: MessageError, rhs: MessageError) -> Bool {
+        return lhs.message == rhs.message
+    }
+}
+
 struct ChartEntry: Equatable {
     var trackName: String
     var artist: String
