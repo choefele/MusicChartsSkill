@@ -4,6 +4,7 @@ import XCTest
 @testable import AlexaSkillTests
 
 XCTMain([
-       testCase(AlexaSkillHandlerTests.allTests)
+       testCase(AlexaSkillHandlerTests.allTests),
+       testCase(SpotifyChartsServiceTests.allTests)
 ])
 #endif
