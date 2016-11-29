@@ -7,16 +7,12 @@ import HeliumLogger
 HeliumLogger.use()
 
 let router = Router()
-router.get("/ping") { request, response, next in
-    response.send("pong")
-    next()
-}
-
 router.all("/") { request, response, next in
     var data = Data()
     let _ = try? request.read(into: &data)
 
-    let requestDispatcher = RequestDispatcher(requestHandler: AlexaSkillHandler())
+    let alexaSkillsHandler = AlexaSkillHandler(chartsService: SpotifyChartsService())
+    let requestDispatcher = RequestDispatcher(requestHandler: alexaSkillsHandler)
     requestDispatcher.dispatch(data: data) { result in
         switch result {
         case .success(let data):

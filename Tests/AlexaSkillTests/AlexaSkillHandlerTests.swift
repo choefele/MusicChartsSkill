@@ -3,6 +3,12 @@ import AlexaSkillsKit
 import Foundation
 import XCTest
 
+class FakeChartsService: ChartsService {
+    func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
+        completion(.success([ChartEntry]()))
+    }
+}
+
 class AlexaSkillHandlerTests: XCTestCase {
     static let allTests = [
         ("testHandleIntent", testHandleIntent)
@@ -13,7 +19,7 @@ class AlexaSkillHandlerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        alexaSkillHandler = AlexaSkillHandler()
+        alexaSkillHandler = AlexaSkillHandler(chartsService: FakeChartsService())
     }
 
     func testHandleIntent() {

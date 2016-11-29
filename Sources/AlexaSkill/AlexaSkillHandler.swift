@@ -2,7 +2,10 @@ import Foundation
 import AlexaSkillsKit
 
 public class AlexaSkillHandler : RequestHandler {
-    public init() {
+    public let chartsService: ChartsService
+    
+    public init(chartsService: ChartsService) {
+        self.chartsService = chartsService
     }
     
     public func handleLaunch(request: LaunchRequest, session: Session, next: @escaping (StandardResult) -> ()) {

@@ -1,30 +1,30 @@
 import Foundation
 
-enum ChartsServiceResult<T> {
+public enum ChartsServiceResult<T> {
     case success(T)
     case failure(Error)
 }
 
-struct MessageError: Error, Equatable {
-    var message: String
+public struct MessageError: Error, Equatable {
+    public var message: String
     
-    static func ==(lhs: MessageError, rhs: MessageError) -> Bool {
+    public static func ==(lhs: MessageError, rhs: MessageError) -> Bool {
         return lhs.message == rhs.message
     }
 }
 
-struct ChartEntry: Equatable {
-    var trackName: String
-    var artist: String
-    var url: URL
+public struct ChartEntry: Equatable {
+    public var trackName: String
+    public var artist: String
+    public var url: URL
     
-    static func ==(lhs: ChartEntry, rhs: ChartEntry) -> Bool {
+    public static func ==(lhs: ChartEntry, rhs: ChartEntry) -> Bool {
         return lhs.trackName == rhs.trackName
             && lhs.artist == rhs.artist
             && lhs.url == rhs.url
     }
 }
 
-protocol ChartsService {
+public protocol ChartsService {
     func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ())
 }
