@@ -1,11 +1,18 @@
+os:
+    - osx
+    - linux
 sudo: required
+language: generic
+dist: trusty
+osx_image: xcode8
 
 services:
   - docker
 
 # mkdir required here to avoid permission problem in script
 install:
-  - mkdir -p .build/lambda/libraries 
+  - mkdir -p .build/lambda/libraries
+  - swift test
   - ./run-unit-tests.sh
 
 script:
