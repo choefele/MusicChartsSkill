@@ -9,21 +9,30 @@ public class AlexaSkillHandler : RequestHandler {
     }
     
     public func handleLaunch(request: LaunchRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        let standardResponse = generateResponse(message: "Alexa Skill received launch request")
-        next(.success(standardResponse: standardResponse, sessionAttributes: session.attributes))
+        generateResponse(next: next)
     }
     
     public func handleIntent(request: IntentRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        let standardResponse = generateResponse(message: "Alexa Skill received intent \(request.intent.name)")
-        next(.success(standardResponse: standardResponse, sessionAttributes: session.attributes))
+        generateResponse(next: next)
     }
     
     public func handleSessionEnded(request: SessionEndedRequest, session: Session, next: @escaping (VoidResult) -> ()) {
         next(.success())
     }
     
-    func generateResponse(message: String) -> StandardResponse {
-        let outputSpeech = OutputSpeech.plain(text: message)
-        return StandardResponse(outputSpeech: outputSpeech)
+    func generateResponse(next: @escaping (StandardResult) -> ()) {
+        chartsService.retrieveCharts { result in
+            var message: String
+            switch result {
+            case .success(let entries):
+                message = "The top entry in the global Spotify charts is \(entries.first?.trackName) by \(entries.first?.artist)."
+            case .failure:
+                message = "Sorry, I'm having troubles finding the Spotify charts right now."
+            }
+            
+            let outputSpeech = OutputSpeech.plain(text: message)
+            let standardResponse = StandardResponse(outputSpeech: outputSpeech)
+            next(.success(standardResponse: standardResponse, sessionAttributes: [:]))
+        }
     }
 }
