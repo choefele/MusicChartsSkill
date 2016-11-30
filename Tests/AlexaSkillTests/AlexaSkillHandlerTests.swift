@@ -5,7 +5,12 @@ import XCTest
 
 class FakeChartsService: ChartsService {
     func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
-        completion(.success([ChartEntry]()))
+        let entries = [
+            ChartEntry(trackName: "1", artist: "1", url: URL(string: "http://test.com")!),
+            ChartEntry(trackName: "2", artist: "2", url: URL(string: "http://test.com")!),
+            ChartEntry(trackName: "3", artist: "3", url: URL(string: "http://test.com")!)
+        ]
+        completion(.success(entries))
     }
 }
 
@@ -31,11 +36,11 @@ class AlexaSkillHandlerTests: XCTestCase {
 
         let testExpectation = expectation(description: #function)
         alexaSkillHandler.handleIntent(request: intentRequest, session: session) { result in
-            switch result {
-            case .success(let result):
-                XCTAssertEqual(result.standardResponse.outputSpeech, OutputSpeech.plain(text: "Alexa Skill received intent name"))
-                XCTAssertTrue(result.sessionAttributes.isEmpty)
-            case .failure:
+            if case .success(let response) = result,
+                let outputSpeech = response.standardResponse.outputSpeech,
+                case OutputSpeech.plain(let text) = outputSpeech {
+                XCTAssertTrue(text.hasPrefix("The top three entries"))
+            } else {
                 XCTFail()
             }
             
