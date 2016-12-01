@@ -13,9 +13,9 @@ struct LocalizedStrings {
         return LocalizedStrings.localizedStrings[localizationID]?[languageID] ?? localizationID.rawValue
     }
 
-    private static let localizedStrings = [
-        LocalizationID.help: [
-            LanguageID.german: "Hilfe"
+    private static let localizedStrings: [LocalizationID: [LanguageID: String]] = [
+        .help: [
+            .german: "Hilfe"
         ]
     ]
 }
