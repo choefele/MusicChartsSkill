@@ -10,7 +10,9 @@ struct LocalizedStrings {
     }
 
     static func localize(_ localizationID: LocalizationID, into languageID: LanguageID) -> String {
-        return LocalizedStrings.localizedStrings[localizationID]?[languageID] ?? localizationID.rawValue
+        let localizedString = LocalizedStrings.localizedStrings[localizationID]?[languageID]
+        assert(localizedString != nil)
+        return localizedString ?? ""
     }
 
     private static let localizedStrings: [LocalizationID: [LanguageID: String]] = [
