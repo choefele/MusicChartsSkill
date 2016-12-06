@@ -12,8 +12,8 @@ struct LocalizedStrings {
         case stop
     }
 
-    static func localize(_ localizationID: LocalizationID, into languageID: LanguageID) -> String {
-        let localizedString = LocalizedStrings.localizedStrings[localizationID]?[languageID]
+    static func localize(_ localizationID: LocalizationID, into languageID: LanguageID, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
+        let localizedString = localizedStrings[localizationID]?[languageID]
         assert(localizedString != nil)
         return localizedString ?? ""
     }
