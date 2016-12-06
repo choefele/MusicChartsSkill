@@ -39,7 +39,6 @@ public class AlexaSkillHandler : RequestHandler {
             message = LocalizedStrings.localize(.error, for: locale)
         }
 
-
         return message
     }
 
