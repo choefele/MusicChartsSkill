@@ -13,7 +13,11 @@ struct LocalizedStrings {
     }
 
     static func localize(_ localizationID: LocalizationID, into languageID: LanguageID, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
-        let localizedString = localizedStrings[localizationID]?[languageID]
+        var localizedString = localizedStrings[localizationID]?[languageID]
+        if localizedString == nil && languageID == .englishGB {
+            // Try to fall back to US english
+            localizedString = localizedStrings[localizationID]?[.englishUS]
+        }
         assert(localizedString != nil)
         return localizedString ?? ""
     }
@@ -21,13 +25,11 @@ struct LocalizedStrings {
     private static let localizedStrings: [LocalizationID: [LanguageID: String]] = [
         .help: [
             .german: "Ich kann Dir die beliebtesten Songs auf Spotify nennen. Sag einfach öffne Music Charts",
-            .englishUS: "I can tell you the most popular tracks on Spotify. Just say open Music Charts.",
-            .englishGB: "I can tell you the most popular tracks on Spotify. Just say open Music Charts."
+            .englishUS: "I can tell you the most popular tracks on Spotify. Just say open Music Charts."
         ],
         .stop: [
             .german: "Bis bald.",
-            .englishUS: "Talk to you soon.",
-            .englishGB: "Talk to you soon."
+            .englishUS: "Talk to you soon."
         ]
     ]
 }

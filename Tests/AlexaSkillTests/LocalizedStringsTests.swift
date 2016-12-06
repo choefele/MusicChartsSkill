@@ -20,4 +20,15 @@ class LocalizedStringsTests: XCTestCase {
         XCTAssertEqual(LocalizedStrings.localize(.help, into: .englishUS, localizedStrings: localizedStrings), "englishUS")
         XCTAssertEqual(LocalizedStrings.localize(.help, into: .englishGB, localizedStrings: localizedStrings), "englishGB")
     }
+
+    func testLocalizeEnglishFallback() {
+        let localizedStrings: [LocalizedStrings.LocalizationID: [LocalizedStrings.LanguageID: String]] = [
+            .help: [
+                .german: "german",
+                .englishUS: "englishUS"
+            ]
+        ]
+
+        XCTAssertEqual(LocalizedStrings.localize(.help, into: .englishGB, localizedStrings: localizedStrings), "englishUS")
+    }
 }
