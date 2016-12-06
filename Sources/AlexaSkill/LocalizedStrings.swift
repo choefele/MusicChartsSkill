@@ -12,6 +12,11 @@ struct LocalizedStrings {
         case stop
         case error
     }
+    
+    static func localize(_ localizationID: LocalizationID, for locale: Locale, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
+        let languageID = LanguageID(rawValue: locale.identifier) ?? .englishUS
+        return LocalizedStrings.localize(localizationID, into: languageID, localizedStrings: localizedStrings)
+    }
 
     static func localize(_ localizationID: LocalizationID, into languageID: LanguageID, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
         var localizedString = localizedStrings[localizationID]?[languageID]

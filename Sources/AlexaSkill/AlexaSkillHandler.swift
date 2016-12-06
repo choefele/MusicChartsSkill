@@ -9,26 +9,26 @@ public class AlexaSkillHandler : RequestHandler {
     }
     
     public func handleLaunch(request: LaunchRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        retrieveCharts(next: next)
+        retrieveCharts(locale: request.request.locale, next: next)
     }
     
     public func handleIntent(request: IntentRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        retrieveCharts(next: next)
+        retrieveCharts(locale: request.request.locale, next: next)
     }
     
     public func handleSessionEnded(request: SessionEndedRequest, session: Session, next: @escaping (VoidResult) -> ()) {
         next(.success())
     }
     
-    func retrieveCharts(next: @escaping (StandardResult) -> ()) {
+    func retrieveCharts(locale: Locale, next: @escaping (StandardResult) -> ()) {
         chartsService.retrieveCharts { result in
-            let message = self.generateTopArtistsMessage(result: result)
+            let message = self.generateTopArtistsMessage(result: result, locale: locale)
             let standardResponse = self.generateStandardResponse(message)
             next(.success(standardResponse: standardResponse, sessionAttributes: [:]))
         }
     }
 
-    func generateTopArtistsMessage(result: ChartsServiceResult<[ChartEntry]>) -> String {
+    func generateTopArtistsMessage(result: ChartsServiceResult<[ChartEntry]>, locale: Locale) -> String {
         var message: String
         if case .success(let entries) = result, entries.count >= 3 {
             message = "The top three entries in the global Spotify charts are "
@@ -36,7 +36,7 @@ public class AlexaSkillHandler : RequestHandler {
             message += "\(entries[1].trackName) by \(entries[1].artist) and "
             message += "\(entries[2].trackName) by \(entries[2].artist). "
         } else {
-            message = "Sorry, I'm having troubles finding the Spotify charts right now."
+            message = LocalizedStrings.localize(.error, for: locale)
         }
 
 

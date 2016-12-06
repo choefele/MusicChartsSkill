@@ -48,4 +48,17 @@ class AlexaSkillHandlerTests: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testGenerateTopArtistsMessageFailure() {
+        let locale = Locale(identifier: "")
+        let error = AlexaSkill.MessageError(message: "message")
+        let message = alexaSkillHandler.generateTopArtistsMessage(result: .failure(error), locale: locale)
+        XCTAssertEqual(message, LocalizedStrings.localize(.error, for: locale))
+    }
+    
+    func testGenerateTopArtistsMessageTooFewEntries() {
+        let locale = Locale(identifier: "")
+        let message = alexaSkillHandler.generateTopArtistsMessage(result: .success([ChartEntry]()), locale: locale)
+        XCTAssertEqual(message, LocalizedStrings.localize(.error, for: locale))
+    }
 }
