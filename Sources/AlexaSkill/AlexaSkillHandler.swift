@@ -29,12 +29,12 @@ public class AlexaSkillHandler : RequestHandler {
     }
 
     func generateTopArtistsMessage(result: ChartsServiceResult<[ChartEntry]>, locale: Locale) -> String {
-        var message: String
+        let message: String
         if case .success(let entries) = result, entries.count >= 3 {
-            message = "The top three entries in the global Spotify charts are "
-            message += "\(entries[0].trackName) by \(entries[0].artist), "
-            message += "\(entries[1].trackName) by \(entries[1].artist) and "
-            message += "\(entries[2].trackName) by \(entries[2].artist). "
+            message = String(format: LocalizedStrings.localize(.top3Format, for: locale),
+                             entries[0].trackName, entries[0].artist,
+                             entries[1].trackName, entries[1].artist,
+                             entries[2].trackName, entries[2].artist)
         } else {
             message = LocalizedStrings.localize(.error, for: locale)
         }
