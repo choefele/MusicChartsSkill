@@ -10,6 +10,7 @@ struct LocalizedStrings {
     enum LocalizationID: String {
         case help
         case stop
+        case error
     }
 
     static func localize(_ localizationID: LocalizationID, into languageID: LanguageID, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
@@ -30,6 +31,10 @@ struct LocalizedStrings {
         .stop: [
             .german: "Bis bald.",
             .englishUS: "Talk to you soon."
+        ],
+        .error: [
+            .german: "Leider kann ich im Moment die Musikcharts nicht laden.",
+            .englishUS: "Sorry, I'm having troubles retrieving the music charts right now."
         ]
     ]
 }
