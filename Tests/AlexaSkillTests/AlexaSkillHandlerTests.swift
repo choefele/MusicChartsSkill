@@ -16,7 +16,9 @@ class FakeChartsService: ChartsService {
 
 class AlexaSkillHandlerTests: XCTestCase {
     static let allTests = [
-        ("testHandleIntent", testHandleIntent)
+        ("testHandleIntent", testHandleIntent),
+        ("testGenerateTopArtistsMessageFailure", testGenerateTopArtistsMessageFailure),
+        ("testGenerateTopArtistsMessageTooFewEntries", testGenerateTopArtistsMessageTooFewEntries)
     ]
     
     var alexaSkillHandler: AlexaSkillHandler!
@@ -39,7 +41,7 @@ class AlexaSkillHandlerTests: XCTestCase {
             if case .success(let response) = result,
                 let outputSpeech = response.standardResponse.outputSpeech,
                 case OutputSpeech.plain(let text) = outputSpeech {
-                XCTAssertTrue(text.hasPrefix("The top three entries"))
+                XCTAssertEqual(text, "The top three entries in the global Spotify charts are 1 by 1, 1 by 1 and 1 by 1.")
             } else {
                 XCTFail()
             }
