@@ -29,12 +29,18 @@ public class AlexaSkillHandler : RequestHandler {
     }
 
     func generateTopArtistsMessage(result: ChartsServiceResult<[ChartEntry]>, locale: Locale) -> String {
-        let message: String
+        var message: String
         if case .success(let entries) = result, entries.count >= 3 {
-            message = String(format: LocalizedStrings.localize(.top3Format, for: locale),
-                             entries[0].trackName, entries[0].artist,
-                             entries[1].trackName, entries[1].artist,
-                             entries[2].trackName, entries[2].artist)
+            // As of 3.0.1, there isn't a way to pass a String as CVargArg on 
+            // Linux. For this reason, the localized strings are split up into
+            // individual pieces. https://bugs.swift.org/browse/SR-957
+            message = LocalizedStrings.localize(.top3Begin, for: locale)
+            
+            let localizedBy = LocalizedStrings.localize(.top3By, for: locale)
+            let localizedAnd = LocalizedStrings.localize(.top3And, for: locale)
+            message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist),"
+            message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist) \(localizedAnd)"
+            message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist)."
         } else {
             message = LocalizedStrings.localize(.error, for: locale)
         }

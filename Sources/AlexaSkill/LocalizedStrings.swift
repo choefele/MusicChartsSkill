@@ -11,7 +11,9 @@ struct LocalizedStrings {
         case help
         case stop
         case error
-        case top3Format
+        case top3Begin
+        case top3By
+        case top3And
     }
     
     static func localize(_ localizationID: LocalizationID, for locale: Locale, localizedStrings: [LocalizationID: [LanguageID: String]] = localizedStrings) -> String {
@@ -42,9 +44,17 @@ struct LocalizedStrings {
             .german: "Leider kann ich im Moment die Musikcharts nicht laden.",
             .englishUS: "Sorry, I'm having troubles retrieving the music charts right now."
         ],
-        .top3Format: [
-            .german: "Die beliebtesten Songs in den Spotify Musikcharts sind %@ by %@, %@ by %@ and %@ by %@.",
-            .englishUS: "The top three entries in the global Spotify charts are %@ by %@, %@ by %@ and %@ by %@."
+        .top3Begin: [
+            .german: "Die beliebtesten Songs in den Spotify Musikcharts sind",
+            .englishUS: "The top three entries in the global Spotify charts are"
+        ],
+        .top3By: [
+            .german: "von",
+            .englishUS: "by"
+        ],
+        .top3And: [
+            .german: "und",
+            .englishUS: "and"
         ]
     ]
 }
