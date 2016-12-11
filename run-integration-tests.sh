@@ -31,7 +31,7 @@ docker build \
     -t lambda-amazonlinux \
     -f Dockerfile-amazonlinux \
     .
-docker run --rm -v "$(pwd):/app" -w /app/.build/lambda lambda-amazonlinux node -e 'var fs = require("fs");require("./").handler(JSON.parse(fs.readFileSync("../../intent_request.json", "utf8")), {}, function(e, r) {if (e) {console.error(e);process.exit(1);} else {console.log(r);}});'
+docker run --rm -v "$(pwd):/app" -w /app/.build/lambda lambda-amazonlinux node -e 'var fs = require("fs");require("./").handler(JSON.parse(fs.readFileSync("../../intent_request.json", "utf8")), {}, function(e, r) {if (e) {console.error(e);process.exit(1);} else {console.log(r); if (!r.response.outputSpeech.text.startsWith("The top three entries")) {console.error("Invalid speech text");process.exit(1);}}});'
 
 # Zip Swift executable, libraries and Node.js shim
 cd .build/lambda
