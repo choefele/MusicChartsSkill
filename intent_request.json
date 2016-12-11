@@ -1,0 +1,24 @@
+{
+  "session": {
+    "sessionId": "SessionId.1920611e-4102-44be-90ae-c143e242cc22",
+    "application": {
+      "applicationId": "amzn1.ask.skill.58a2f6ef-8ade-431e-8b50-7af0fe9a42da"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AHTQQ36ZKLYGUNIUL2E2YDKQEIZFVOJCAHXSVEU6OBFIWLM3YLKE6YD4R6B5Z6HT5AMUM4DWZJE4WYJJSH4YNEUYBLI5POPBUCVYH5XYQ57HZGJA3UTF3ZM3HJFYOIMZMMSJ4W2D3FJRWYZPYH2R5DJBOTDTHXEL7WCN66FPWTNV4KJ2EUXKRERH37QGFW7LSC63EI7NNECNNLY"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.a57d2c91-21a7-4868-ae7f-b43d77acdec2",
+    "locale": "en-US",
+    "timestamp": "2016-12-11T20:09:29Z",
+    "intent": {
+      "name": "MusicChartsIntent",
+      "slots": {}
+    }
+  },
+  "version": "1.0"
+}
