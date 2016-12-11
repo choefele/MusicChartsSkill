@@ -7,8 +7,15 @@ public class SpotifyChartsService: ChartsService {
     }
     
     public func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
-        let URL = "https://spotifycharts.com/regional/global/daily/latest/download"
-        let _ = HTTP.get(URL) { response in
+        // Need to disable SSL verification because this caused
+        // a CURLE_SSL_CACERT_BADFILE error on amazonlinux
+        let options: [ClientRequest.Options] = [
+            .schema("https://"),
+            .hostname("spotifycharts.com"),
+            .path("/regional/global/daily/latest/download"),
+            .disableSSLVerification
+        ]
+        let clientRequest = HTTP.request(options) { response in
             var data = Data()
             guard let _ = try? response?.readAllData(into: &data) else {
                 completion(.failure(MessageError(message: "Invalid data")))
@@ -22,6 +29,7 @@ public class SpotifyChartsService: ChartsService {
             
             completion(.success(entries))
         }
+        clientRequest.end()
     }
     
     static func parse(data: Data) -> [ChartEntry]? {
