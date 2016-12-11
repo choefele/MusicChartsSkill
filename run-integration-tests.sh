@@ -2,7 +2,8 @@
 
 set -e
 
-# Build Swift executable
+# Build Swift executable into .build/native with separate folders
+# for build output and Packages to avoid conflicts with local builds.  
 docker run \
     --rm \
     --volume "$(pwd):/app" \
@@ -10,6 +11,8 @@ docker run \
     --volume "$(pwd)/.build/native/Packages:/app/Packages" \
     lambda-ubuntu \
     swift build -c release --build-path .build/native
+
+# Final output is in .build/Lambda folder
 mkdir -p .build/lambda
 cp .build/native/release/Lambda .build/lambda/
 
