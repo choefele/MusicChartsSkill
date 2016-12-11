@@ -3,7 +3,7 @@ import AlexaSkillsKit
 import Foundation
 import XCTest
 
-class FakeChartsService: ChartsService {
+private class FakeChartsService: ChartsService {
     func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
         let entries = [
             ChartEntry(trackName: "1", artist: "1", url: URL(string: "http://test.com")!),
@@ -12,6 +12,16 @@ class FakeChartsService: ChartsService {
         ]
         completion(.success(entries))
     }
+}
+
+private func createIntentEnvelope(for intentName: String) -> (IntentRequest, Session) {
+    let request = Request(requestId: "requestId", timestamp: Date(), locale: Locale(identifier: "en"))
+    let intentRequest = IntentRequest(request: request, intent: Intent(name: intentName))
+    let application = Application(applicationId: "applicationId")
+    let user = User(userId: "userId")
+    let session = Session(isNew: true, sessionId: "sessionId", application: application, attributes: [:], user: user)
+    
+    return (intentRequest, session)
 }
 
 class AlexaSkillHandlerTests: XCTestCase {
@@ -30,14 +40,9 @@ class AlexaSkillHandlerTests: XCTestCase {
     }
 
     func testHandleIntent() {
-        let request = Request(requestId: "requestId", timestamp: Date(), locale: Locale(identifier: "en"))
-        let intentRequest = IntentRequest(request: request, intent: Intent(name: "name"))
-        let application = Application(applicationId: "applicationId")
-        let user = User(userId: "userId")
-        let session = Session(isNew: true, sessionId: "sessionId", application: application, attributes: [:], user: user)
-
+        let intentEnvelope = createIntentEnvelope(for: "name")
         let testExpectation = expectation(description: #function)
-        alexaSkillHandler.handleIntent(request: intentRequest, session: session) { result in
+        alexaSkillHandler.handleIntent(request: intentEnvelope.0, session: intentEnvelope.1) { result in
             if case .success(let response) = result,
                 let outputSpeech = response.standardResponse.outputSpeech,
                 case OutputSpeech.plain(let text) = outputSpeech {
@@ -62,5 +67,22 @@ class AlexaSkillHandlerTests: XCTestCase {
         let locale = Locale(identifier: "")
         let message = alexaSkillHandler.generateTopArtistsMessage(result: .success([ChartEntry]()), locale: locale)
         XCTAssertEqual(message, LocalizedStrings.localize(.error, for: locale))
+    }
+    
+    func testHandleHelpIntent() {
+        let intentEnvelope = createIntentEnvelope(for: BuiltInIntent.help.rawValue)
+        let testExpectation = expectation(description: #function)
+        alexaSkillHandler.handleIntent(request: intentEnvelope.0, session: intentEnvelope.1) { result in
+            if case .success(let response) = result,
+                let outputSpeech = response.standardResponse.outputSpeech,
+                case OutputSpeech.plain(let text) = outputSpeech {
+                XCTAssertEqual(text, LocalizedStrings.localize(.help, into: .englishUS))
+            } else {
+                XCTFail()
+            }
+            
+            testExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 1)
     }
 }

@@ -13,7 +13,13 @@ public class AlexaSkillHandler : RequestHandler {
     }
     
     public func handleIntent(request: IntentRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        retrieveCharts(locale: request.request.locale, next: next)
+        switch request.intent.name {
+        case BuiltInIntent.help.rawValue:
+            let standardResponse = generateStandardResponse(LocalizedStrings.localize(.help, for: request.request.locale))
+            next(.success(standardResponse: standardResponse, sessionAttributes: [:]))
+        default:
+            retrieveCharts(locale: request.request.locale, next: next)
+        }
     }
     
     public func handleSessionEnded(request: SessionEndedRequest, session: Session, next: @escaping (VoidResult) -> ()) {
