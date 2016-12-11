@@ -6,9 +6,9 @@ import XCTest
 private class FakeChartsService: ChartsService {
     func retrieveCharts(completion: @escaping (ChartsServiceResult<[ChartEntry]>) -> ()) {
         let entries = [
-            ChartEntry(trackName: "1", artist: "1", url: URL(string: "http://test.com")!),
-            ChartEntry(trackName: "2", artist: "2", url: URL(string: "http://test.com")!),
-            ChartEntry(trackName: "3", artist: "3", url: URL(string: "http://test.com")!)
+            ChartEntry(trackName: "1", artist: "a", url: URL(string: "http://test.com")!),
+            ChartEntry(trackName: "2", artist: "b", url: URL(string: "http://test.com")!),
+            ChartEntry(trackName: "3", artist: "c", url: URL(string: "http://test.com")!)
         ]
         completion(.success(entries))
     }
@@ -49,7 +49,7 @@ class AlexaSkillHandlerTests: XCTestCase {
             if case .success(let response) = result,
                 let outputSpeech = response.standardResponse.outputSpeech,
                 case OutputSpeech.plain(let text) = outputSpeech {
-                XCTAssertEqual(text, "The top three entries in the global Spotify charts are 1 by 1, 1 by 1 and 1 by 1.")
+                XCTAssertEqual(text, "The top three entries in the global Spotify charts are 1 by a, 2 by b and 3 by c.")
             } else {
                 XCTFail()
             }

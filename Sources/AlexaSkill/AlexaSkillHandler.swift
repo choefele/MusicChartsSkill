@@ -52,8 +52,8 @@ public class AlexaSkillHandler : RequestHandler {
             let localizedBy = LocalizedStrings.localize(.top3By, for: locale)
             let localizedAnd = LocalizedStrings.localize(.top3And, for: locale)
             message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist),"
-            message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist) \(localizedAnd)"
-            message += " \(entries[0].trackName) \(localizedBy) \(entries[0].artist)."
+            message += " \(entries[1].trackName) \(localizedBy) \(entries[1].artist) \(localizedAnd)"
+            message += " \(entries[2].trackName) \(localizedBy) \(entries[2].artist)."
         } else {
             message = LocalizedStrings.localize(.error, for: locale)
         }
