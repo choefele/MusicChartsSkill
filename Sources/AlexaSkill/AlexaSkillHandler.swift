@@ -13,11 +13,18 @@ public class AlexaSkillHandler : RequestHandler {
     }
     
     public func handleIntent(request: IntentRequest, session: Session, next: @escaping (StandardResult) -> ()) {
-        switch request.intent.name {
-        case BuiltInIntent.help.rawValue:
-            let standardResponse = generateStandardResponse(LocalizedStrings.localize(.help, for: request.request.locale))
+        if let builtInIntent = BuiltInIntent(rawValue: request.intent.name) {
+            let message: String
+            
+            switch builtInIntent {
+            case .cancel, .stop:
+                message = LocalizedStrings.localize(.stop, for: request.request.locale)
+            default:
+                message = LocalizedStrings.localize(.help, for: request.request.locale)
+            }
+            let standardResponse = generateStandardResponse(message)
             next(.success(standardResponse: standardResponse, sessionAttributes: [:]))
-        default:
+        } else {
             retrieveCharts(locale: request.request.locale, next: next)
         }
     }

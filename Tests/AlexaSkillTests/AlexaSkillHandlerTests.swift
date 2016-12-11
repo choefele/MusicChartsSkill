@@ -28,7 +28,10 @@ class AlexaSkillHandlerTests: XCTestCase {
     static let allTests = [
         ("testHandleIntent", testHandleIntent),
         ("testGenerateTopArtistsMessageFailure", testGenerateTopArtistsMessageFailure),
-        ("testGenerateTopArtistsMessageTooFewEntries", testGenerateTopArtistsMessageTooFewEntries)
+        ("testGenerateTopArtistsMessageTooFewEntries", testGenerateTopArtistsMessageTooFewEntries),
+        ("testHandleHelpIntent", testHandleHelpIntent),
+        ("testHandleCancelIntent", testHandleCancelIntent),
+        ("testHandleStopIntent", testHandleStopIntent)
     ]
     
     var alexaSkillHandler: AlexaSkillHandler!
@@ -77,6 +80,40 @@ class AlexaSkillHandlerTests: XCTestCase {
                 let outputSpeech = response.standardResponse.outputSpeech,
                 case OutputSpeech.plain(let text) = outputSpeech {
                 XCTAssertEqual(text, LocalizedStrings.localize(.help, into: .englishUS))
+            } else {
+                XCTFail()
+            }
+            
+            testExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testHandleCancelIntent() {
+        let intentEnvelope = createIntentEnvelope(for: BuiltInIntent.cancel.rawValue)
+        let testExpectation = expectation(description: #function)
+        alexaSkillHandler.handleIntent(request: intentEnvelope.0, session: intentEnvelope.1) { result in
+            if case .success(let response) = result,
+                let outputSpeech = response.standardResponse.outputSpeech,
+                case OutputSpeech.plain(let text) = outputSpeech {
+                XCTAssertEqual(text, LocalizedStrings.localize(.stop, into: .englishUS))
+            } else {
+                XCTFail()
+            }
+            
+            testExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testHandleStopIntent() {
+        let intentEnvelope = createIntentEnvelope(for: BuiltInIntent.stop.rawValue)
+        let testExpectation = expectation(description: #function)
+        alexaSkillHandler.handleIntent(request: intentEnvelope.0, session: intentEnvelope.1) { result in
+            if case .success(let response) = result,
+                let outputSpeech = response.standardResponse.outputSpeech,
+                case OutputSpeech.plain(let text) = outputSpeech {
+                XCTAssertEqual(text, LocalizedStrings.localize(.stop, into: .englishUS))
             } else {
                 XCTFail()
             }
