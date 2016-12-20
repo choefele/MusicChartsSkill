@@ -1,0 +1,37 @@
+MusicChartsIntent charts
+MusicChartsIntent music charts
+MusicChartsIntent most popular songs
+MusicChartsIntent tell me the music charts
+MusicChartsIntent tell me music charts
+MusicChartsIntent tell me the most popular songs
+MusicChartsIntent tell me something
+MusicChartsIntent what are the music charts
+MusicChartsIntent what are music charts
+MusicChartsIntent what me the most popular songs
+MusicChartsIntent give me the music charts
+MusicChartsIntent give me music charts
+MusicChartsIntent give me the most popular songs
+MusicChartsIntent give me something
+
+MusicChartsIntent charts
+MusicChartsIntent music charts
+MusicChartsIntent hitliste
+MusicChartsIntent die beliebtesten songs
+MusicChartsIntent die beliebtesten lieder
+MusicChartsIntent nenn mir die musikcharts
+MusicChartsIntent nenn mir die charts
+MusicChartsIntent nenn mir die hitliste
+MusicChartsIntent nenne mir die musikcharts
+MusicChartsIntent nenne mir die charts
+MusicChartsIntent nenne mir die hitliste
+MusicChartsIntent sag mir die musikcharts
+MusicChartsIntent sag mir die charts
+MusicChartsIntent sag mir die hitliste
+MusicChartsIntent sag mir was
+MusicChartsIntent sage mir die musikcharts
+MusicChartsIntent sage mir die charts
+MusicChartsIntent sage mir die hitliste
+MusicChartsIntent sage mir was
+MusicChartsIntent was sind die musikcharts
+MusicChartsIntent was sind die charts
+MusicChartsIntent was ist die hitliste
