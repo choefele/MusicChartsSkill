@@ -5,7 +5,7 @@ set -e
 # Run unit tests
 docker build \
     -t lambda-ubuntu \
-    -f Dockerfile-ubuntu \
+    -f Dockerfile \
     .
 docker run \
     --rm \
